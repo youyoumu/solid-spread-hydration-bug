@@ -4,6 +4,7 @@ function App() {
   const [count, setCount] = createSignal(0);
   const [ref, setRef] = createSignal<HTMLDivElement>();
 
+  // Reactive object for spread
   const data = createMemo(() => {
     return {
       "data-whatever": count() === 1 ? "yes" : "no",
@@ -11,13 +12,13 @@ function App() {
   });
 
   onMount(() => {
-    console.log(ref()?.textContent); // Hello world!
+    console.log(ref()?.textContent); // Hello world! (Correct)
     setCount(1);
     setTimeout(() => {
-      console.log(ref()?.textContent); // <empty>
-      console.log(ref()?.getAttribute("data-whatever")); // yes
-      console.log(ref()?.getAttribute("class")); // flex
-      console.log(ref()?.getAttribute("style")); // color: red
+      console.log(ref()?.textContent); // "" (BUG: Should be "Hello world!")
+      console.log(ref()?.getAttribute("data-whatever")); // yes (Correct)
+      console.log(ref()?.getAttribute("class")); // flex (correct)
+      console.log(ref()?.getAttribute("style")); // color: red (Correct)
     }, 500);
   });
 
@@ -40,13 +41,13 @@ function App2() {
   const [ref, setRef] = createSignal<HTMLDivElement>();
 
   onMount(() => {
-    console.log(ref()?.textContent); // Hello world!
+    console.log(ref()?.textContent); // Hello world! (Correct)
     setCount(1);
     setTimeout(() => {
-      console.log(ref()?.textContent); // Hello world!
-      console.log(ref()?.getAttribute("data-whatever")); // yes
-      console.log(ref()?.getAttribute("class")); // flex
-      console.log(ref()?.getAttribute("style")); // color: red
+      console.log(ref()?.textContent); // Hello world! (Correct)
+      console.log(ref()?.getAttribute("data-whatever")); // yes (Correct)
+      console.log(ref()?.getAttribute("class")); // flex (Correct)
+      console.log(ref()?.getAttribute("style")); // color: red (Correct)
     }, 500);
   });
 
